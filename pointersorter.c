@@ -3,58 +3,121 @@
 #include <string.h>
 #include "pointersorter.h"
 
+Node * head;
 
 /* Prints var in hex form */
 void printAddress(int var) {
 	printf("0x%x\n", var);
 }
 
+/* Prints token and lenght of a signle node. */
+void printNode(Node * n) {
+	printf("Token:   %s\n", n->token);
+	//printf("Length:  %i\n", n->length);
+}
+
+/* Prints token and length of entire list of nodes. 
+   Frees the nodes as list is traversed. */
+void printList(Node * head) {
+	Node * ptr = head;
+	while (ptr != '\0') {
+		printf("Token:   %s\n", ptr->token);
+		//printf("Length:  %i\n", ptr->length);
+		Node * temp = ptr;
+		ptr = ptr->next;
+		free(temp);
+	}
+}
+
 /* Checks if char c is an alphabetical character.
    Returns 0 if alphabetical; 1 if non-alphabetical. */
 int isAlphabet(char c) {
 	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) {
-		return 0;
-	} else {
 		return 1;
+	} else {
+		return 0;
+	}
+}
+
+/* Creates the first Node and fills in data fields */
+void createFirstNode(unsigned char * token, int length) {
+	head = (Node *)malloc(sizeof(Node));
+	head->token = token;
+	head->length = length;
+	head->next = NULL;
+}
+
+/* Creates a new Node, fills in data fields,
+   and appends to the end of the linked list. */
+void newNode(unsigned char * token, int length) {
+	
+	// Create and initialize new node
+	Node * n = (Node *)malloc(sizeof(Node));
+	n->token = token;
+	n->length = length;
+	n->next = NULL;
+
+	// Append node to the end of the linked list
+	Node * ptr = head;
+	while (ptr != NULL) {
+		if (ptr->next == NULL) {
+			ptr->next = n;
+			return;
+		} else {
+			ptr = ptr->next;
+		}	
 	}
 }
 
 /* Extracts tokens and calls functions to store
    the tokens and to sort them when added. */
 int extractTokens(char * input, size_t inputSize) {
-	// Two pointers from start and end of tokens
+
+	// Two pointers to determine size of tokens
 	char * tokenStart = input;
 	char * tokenEnd = input;
+	unsigned char isFirst = '0';
 
 	// Traverse the input string moving tokenStart at the beginning if each token
-	while (*tokenStart >= *input+inputSize) {
+	while ((int)tokenStart <= (int)input+inputSize) {
+
+		// Start of new token
 		if (isAlphabet(*tokenStart)) {
+
+			// Traverse the token moving tokenEnd to find the size of the token
 			tokenEnd = tokenStart;
-			// continue checking if alphbetical to extract token with loop
+			while (isAlphabet(*tokenEnd)) {
+				tokenEnd++;
+			}
+			int length = tokenEnd-tokenStart;
+			unsigned char * token = (unsigned char *)malloc((length)*sizeof(char));
+
+			// Traverse the token moving tokenStart to tokenEnd to fill in characters
+			for (int i = 0; tokenStart < tokenEnd; i++, tokenStart++) {
+				token[i] = *tokenStart;
+			}
+
+			// Start linked list or add node to existing list
+			if (isFirst == '0') {
+				createFirstNode(token, length);
+				isFirst = '1';
+			} else {
+				newNode(token, length);
+			}
+
+		// Non-alphabetical character; continue to next character	
+		} else {
+			tokenStart++;
 		}
-		tokenStart++; // not permanent, but for testing purposes
-
 	}
-	// TO: Andrew 
-	//		I am having issues with this function so try and pick it up here
-	// FROM: Steve
-
-	/* Verify Locations and Values Of String */
-	//printAddress(*tokenStart); 		// Address of tokenStart
-	//printAddress(*tokenEnd);			// Address of tokenEnd
-	//printf("%c\n", *tokenStart);		// Value at tokenStart
-	//printf("%c\n", *tokenEnd);		// Value at tokenEnd
-	
-
-
 	return 0;
 }
-
 
 /* Main takes input and calls functions to tokenize
    the input, store the tokens, sort the tokens, and
    print the tokens. */
 int main(int argc, char** argv) {
+
 	// Checks if number of arguments is incorrect
 	if (argc != 2) {
 		fprintf(stderr,"Arguments given are not in valid form. Give a single input string surrounded by quotations.\n");
@@ -65,15 +128,10 @@ int main(int argc, char** argv) {
 		printf("Enter input string between quotations.\n");
 		return 0;
 	}
-	//printAddress(*argv[1]);
-	//printf("%s\n", argv[1]);
 
-	extractTokens(argv[1], strlen(argv[1]));	// tokenize input string
-		// store tokens
-			// sort tokens
+	extractTokens(argv[1], strlen(argv[1]));
 
-	// print tokens
-
+	printList(head);
 
 	printf("\n");
 	return 0;	
