@@ -5,14 +5,6 @@
 
 Node * head;
 
-
-
-/*
-Sorting is done before each node is appendedi in method newNode 
-*/
-
-
-
 /* Prints var in hex form */
 void printAddress(int var) {
 	printf("0x%x\n", var);
@@ -30,9 +22,9 @@ void printList(Node * head) {
 	Node * ptr = head;
 	while (ptr != '\0') {
 		printf("Token:   %s\n", ptr->token);
-		//printf("Length:  %i\n", ptr->length);
 		Node * temp = ptr;
 		ptr = ptr->next;
+		free(temp->token);
 		free(temp);
 	}
 }
@@ -44,6 +36,15 @@ int isAlphabet(char c) {
 		return 1;
 	} else {
 		return 0;
+	}
+}
+
+/* */
+char toUpper (char c) {
+	if (c >= 97 && c <= 122) {
+		return (c - 32);
+	} else {
+		return c;
 	}
 }
 
@@ -64,46 +65,57 @@ void newNode(unsigned char * token, int length) {
 	n->token = token;
 	n->length = length;
 	n->next = NULL;
+	unsigned char moved = '0';
 
 	// Append node to the end of the linked list
 	Node * ptr = head;
+	Node * ptrTwo = head;
 	while (ptr != NULL) {
 		if (ptr->next == NULL) {
 			ptr->next = n;
 			return;
 		} else {
-			append(n,ptr);
+			compareNodes(n, ptr, ptrTwo, moved);
+			ptr = ptr -> next;	
 		}	
 	
 	}
 }
 
-//Duplicates new token into all capital letters, sorts relative to ascii number and then appends original node
-void append(Node * n, Node * ptr)
-{
+/* Compares tokens of nodes to find correct position in linked list of new node */
+void compareNodes(Node * n, Node * ptr, Node * ptrTwo, unsigned char moved) {
 	int i = 0;
-	while(i)
-	{
-		int nLen = strlen();
-		
-		char newNode = (char)(toupper(n->token[i]);
-		char appended = (char)(toupper(ptr->token[i])));
 
-		if(newNode < appended)
-		{
-			n -> next = ptr -> next;
-			ptr -> next = n;
-			break;
-		}	
-		else if(newNode > appended)
-		{
-			ptr = ptr -> next;
-			break;
-		}
-		else
-		{
+	while (i <= n->length && i <= ptr->length) {
+		
+		char nChar = toUpper(n->token[i]);
+		char ptrChar = toUpper(ptr->token[i]);
+
+		if (nChar < ptrChar) {
+			// Place in linked list before ptr
+			ptrTwo->next = n;
+			n->next = ptr;
+			return;
+		} else if (nChar > ptrChar) {
+			// Continue to next node
+			ptr = ptr->next;
+			ptrTwo = ptrTwo->next;
+			return;
+		} else {
+			// Continue to next character
 			i++;
 		}
+	}
+
+	if (i == n->length) {
+		// Place in linked list before ptr
+		ptrTwo->next = n;
+		n->next = ptr;
+		return;
+	} else {
+		// Continue to next node
+		ptr = ptr->next;
+		ptrTwo = ptrTwo->next;
 	}
 }
 
