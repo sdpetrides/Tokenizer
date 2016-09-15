@@ -5,12 +5,20 @@
 
 Node * head;
 
+
+
+/*
+Sorting is done before each node is appendedi in method newNode 
+*/
+
+
+
 /* Prints var in hex form */
 void printAddress(int var) {
 	printf("0x%x\n", var);
 }
 
-/* Prints token and lenght of a signle node. */
+/* Prints token and length of a single node. */
 void printNode(Node * n) {
 	printf("Token:   %s\n", n->token);
 	//printf("Length:  %i\n", n->length);
@@ -64,8 +72,38 @@ void newNode(unsigned char * token, int length) {
 			ptr->next = n;
 			return;
 		} else {
-			ptr = ptr->next;
+			append(n,ptr);
 		}	
+	
+	}
+}
+
+//Duplicates new token into all capital letters, sorts relative to ascii number and then appends original node
+void append(Node * n, Node * ptr)
+{
+	int i = 0;
+	while(i)
+	{
+		int nLen = strlen();
+		
+		char newNode = (char)(toupper(n->token[i]);
+		char appended = (char)(toupper(ptr->token[i])));
+
+		if(newNode < appended)
+		{
+			n -> next = ptr -> next;
+			ptr -> next = n;
+			break;
+		}	
+		else if(newNode > appended)
+		{
+			ptr = ptr -> next;
+			break;
+		}
+		else
+		{
+			i++;
+		}
 	}
 }
 
