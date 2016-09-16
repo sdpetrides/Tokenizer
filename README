@@ -1,1 +1,23 @@
 Include a brief description of the program and any great features we want them to notice. Save as a pdf.
+
+Sorting Algorithm
+	if ptrA has another node after:
+		if ptrA == ptrB == head:
+			if n needs to go before head:
+				n->next = head;
+				head = n;
+			else:
+				ptr = ptrA->next;
+		else:
+			if n needs to go before ptrA:
+				ptrB->next = n;
+				n->next = ptrA;
+			else:
+				ptrA = ptrA->next;
+				ptrB = ptrB->next;
+		else:
+		if n needs to go before ptrA:
+			ptrB->next = n;
+			n->next = ptrA;
+		else:
+			ptrA->next = n;

@@ -5,23 +5,20 @@
 
 Node * head;
 
-/* Prints var in hex form */
-void printAddress(int var) {
-	printf("0x%x\n", var);
-}
-
 /* Prints token and length of a single node. */
 void printNode(Node * n) {
-	printf("Token:   %s\n", n->token);
-	//printf("Length:  %i\n", n->length);
+	printf("%s\n", n->token);
 }
 
 /* Prints token and length of entire list of nodes. 
    Frees the nodes as list is traversed. */
 void printList(Node * head) {
+	if (head == NULL) {
+		printf("No valid tokens in the input string.\n");
+	}
 	Node * ptr = head;
 	while (ptr != '\0') {
-		printf("Token:   %s\n", ptr->token);
+		printNode(ptr);
 		Node * temp = ptr;
 		ptr = ptr->next;
 		free(temp->token);
@@ -39,7 +36,7 @@ int isAlphabet(char c) {
 	}
 }
 
-/* */
+/* Returns uppercase version of character. */
 char toUpper (char c) {
 	if (c >= 97 && c <= 122) {
 		return (c - 32);
@@ -59,31 +56,61 @@ void createFirstNode(unsigned char * token, int length) {
 /* Creates a new Node, fills in data fields,
    and appends to the end of the linked list. */
 void newNode(unsigned char * token, int length) {
-	
+
 	// Create and initialize new node
 	Node * n = (Node *)malloc(sizeof(Node));
 	n->token = token;
 	n->length = length;
 	n->next = NULL;
-	unsigned char moved = '0';
 
-	// Append node to the end of the linked list
-	Node * ptr = head;
-	Node * ptrTwo = head;
-	while (ptr != NULL) {
-		if (ptr->next == NULL) {
-			ptr->next = n;
-			return;
+	// Create pointers to traverse the linked list
+	Node * ptrA = head; // first
+	Node * ptrB = head; // second
+
+	// Traverse the linked list and add the node in the proper position
+	while (ptrA != NULL) {
+		// There are more than one node in the list
+		if (ptrA->next == NULL) {
+			// ptrA is the last node in the list
+			if (compareTokens(n, ptrA)) {
+				// Place in linked list after ptrB
+				ptrB->next = n;
+				n->next = ptrA;
+				return;
+			} else {
+				// Place n at the end of the list
+				ptrA->next = n;
+				return;
+			}
 		} else {
-			compareNodes(n, ptr, ptrTwo, moved);
-			ptr = ptr -> next;	
+			if (ptrA == head && ptrB == head) {
+				// Comparing with the first node in the list
+				if (compareTokens(n, head)) {
+					// Place n at the front of the linked list
+					n->next = head;
+					head = n;	
+					return;
+				} else {
+					// Continue to the next node
+					ptrA = ptrA->next;
+				}
+			} else if (compareTokens(n, ptrA)) {
+				// Place in linked list after ptrB
+				ptrB->next = n;
+				n->next = ptrA;
+				return;
+			} else {
+				// Continue to next node
+				ptrA = ptrA->next;
+				ptrB = ptrB->next;	
+			}	
 		}	
-	
 	}
 }
 
-/* Compares tokens of nodes to find correct position in linked list of new node */
-void compareNodes(Node * n, Node * ptr, Node * ptrTwo, unsigned char moved) {
+/* Compares tokens of nodes to find correct 
+   position in linked list of new node */
+int compareTokens(Node * n, Node * ptr) {
 	int i = 0;
 
 	while (i <= n->length && i <= ptr->length) {
@@ -93,14 +120,10 @@ void compareNodes(Node * n, Node * ptr, Node * ptrTwo, unsigned char moved) {
 
 		if (nChar < ptrChar) {
 			// Place in linked list before ptr
-			ptrTwo->next = n;
-			n->next = ptr;
-			return;
+			return 1;
 		} else if (nChar > ptrChar) {
 			// Continue to next node
-			ptr = ptr->next;
-			ptrTwo = ptrTwo->next;
-			return;
+			return 0;
 		} else {
 			// Continue to next character
 			i++;
@@ -109,13 +132,10 @@ void compareNodes(Node * n, Node * ptr, Node * ptrTwo, unsigned char moved) {
 
 	if (i == n->length) {
 		// Place in linked list before ptr
-		ptrTwo->next = n;
-		n->next = ptr;
-		return;
+		return 1;
 	} else {
 		// Continue to next node
-		ptr = ptr->next;
-		ptrTwo = ptrTwo->next;
+		return 0;
 	}
 }
 
@@ -179,10 +199,10 @@ int main(int argc, char** argv) {
 		return 0;
 	}
 
+	// Extract tokens, add to linked list in sorted order, and print linked list
 	extractTokens(argv[1], strlen(argv[1]));
-
 	printList(head);
-
+	
 	printf("\n");
 	return 0;	
 }
