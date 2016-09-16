@@ -1,6 +1,14 @@
 Include a brief description of the program and any great features we want them to notice. Save as a pdf.
 
+How We Handled Sorting
+
+	Our program takes in input as stdin and then calls a function to create and linked list and another function to 
+
+
 Sorting Algorithm
+
+- head, ptrA, ptrB are Node pointers
+
 	if ptrA has another node after:
 		if ptrA == ptrB == head:
 			if n needs to go before head:

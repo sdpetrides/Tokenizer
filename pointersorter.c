@@ -149,7 +149,7 @@ int extractTokens(char * input, size_t inputSize) {
 	unsigned char isFirst = '0';
 
 	// Traverse the input string moving tokenStart at the beginning if each token
-	while ((int)tokenStart <= (int)input+inputSize) {
+	while (tokenStart <= input+inputSize) {
 
 		// Start of new token
 		if (isAlphabet(*tokenStart)) {
@@ -163,7 +163,8 @@ int extractTokens(char * input, size_t inputSize) {
 			unsigned char * token = (unsigned char *)malloc((length)*sizeof(char));
 
 			// Traverse the token moving tokenStart to tokenEnd to fill in characters
-			for (int i = 0; tokenStart < tokenEnd; i++, tokenStart++) {
+			int i;
+			for (i = 0; tokenStart < tokenEnd; i++, tokenStart++) {
 				token[i] = *tokenStart;
 			}
 
