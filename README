@@ -34,21 +34,13 @@ Sorting Algorithm
 
 extractTokens(char * input, size_t inputSize)
 
--There are two parameters, a pointer to the beginning of the input string and the size of the     input string.
+-There are two parameters, a pointer to the beginning of the input string and the size of the    
+input string.
 
--The method utilizes two pointers to isolate each token, tokenStart and tokenEnd. tokenEnd traverses the character array and stops on the first character that is not a letter. Once tokenEnd stops the address of tokenEnd is subtracted with the address of tokenStart to obtain the size of the token. A piece of memory is then malloced to the size of the determined token. tokenStart next points to where tokenEnd is pointing to and the method subsequently looks for another token.
+-The method utilizes two pointers to isolate each token, tokenStart and tokenEnd. tokenEnd traverses
+the character array and stops on the first character that is not a letter. Once tokenEnd stops the
+address of tokenEnd is subtracted with the address of tokenStart to obtain the size of the token. A
+piece of memory is then malloced to the size of the determined token. tokenStart next points to where
+tokenEnd is pointing to and the method subsequently looks for another token.
 
 -The entire input in traversed in a while loop until the pointer reaches the null terminator.
-
-
-
-
- 
-
-
-
-
-
-
-
-
