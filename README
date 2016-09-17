@@ -3,7 +3,8 @@ Steve Petrides
 Systems Programming
 18 September 2016
 
-There are two major methods in the implementation of the string tokenizer, one that extracts tokens from the input string and a method that appends the token in alphabetical order. 
+There are two major methods in the implementation of the string tokenizer, one that extracts tokens
+from the input string and a method that appends the token in alphabetical order. 
 
 Sorting Algorithm
 
