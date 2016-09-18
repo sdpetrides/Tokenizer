@@ -11,6 +11,12 @@ The tokens are stored using a linked list structure. A struct, node is created w
 char * token, which is a pointer to a char array that holds the actual token, node * next which is a
 pointer to the next node in the list and int length which is the size of the token. 
 
+As nodes are extracted from the input they are appended to the list in the correct order. Three
+methods are used in order to sort the nodes, toUpper(), compareTokens() and extractTokens().
+
+char toUpper (char c);
+int compareTokens(Node * n, Node * ptr);
+
 Sorting Algorithm
 
 - head, ptrA, ptrB are Node pointers
