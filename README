@@ -22,7 +22,14 @@ subtracting the current character by 32 utilizing the ascii integer value of the
 int compareTokens(Node * n, Node * ptr);
 
 -Compares the capitalized version of the first character in both tokens, the one being added to the 
-list and the token that is already in the list and being compared with. If 
+list and the token that is already in the list and being compared with. If the new token character is
+less than the present tokens character, again using the ascii integer value of the character, the new 
+token is inserted before before the present one. If the character is larger than the present tokens
+character the pointer is incremented and the next token in the list is observed. If both characters 
+the same value the next character in both tokens is compared.
+
+-If, for example, there are two tokens, "Andrew" and "And", the token with less characters is inserted
+before the larger one. 
 
 
 Sorting Algorithm
