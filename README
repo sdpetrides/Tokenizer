@@ -15,7 +15,15 @@ As nodes are extracted from the input they are appended to the list in the corre
 methods are used in order to sort the nodes, toUpper(), compareTokens() and extractTokens().
 
 char toUpper (char c);
+
+-Determines if a character is lower case and returns uppercase version of character. It does so by 
+subtracting the current character by 32 utilizing the ascii integer value of the character.
+
 int compareTokens(Node * n, Node * ptr);
+
+-Compares the capitalized version of the first character in both tokens, the one being added to the 
+list and the token that is already in the list and being compared with. If 
+
 
 Sorting Algorithm
 
