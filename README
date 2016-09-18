@@ -31,6 +31,11 @@ the same value the next character in both tokens is compared.
 -If, for example, there are two tokens, "Andrew" and "And", the token with less characters is inserted
 before the larger one. 
 
+-Calls method toUpper() to do comparisons 
+
+-The method extractTokens() calls compareTokens() and inserts the node to the linked list in front of
+the node being compared. It does so by maintaining two pointers which traverse the list. 
+
 
 Sorting Algorithm
 
