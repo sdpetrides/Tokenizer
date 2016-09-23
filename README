@@ -1,11 +1,12 @@
+Stephen Petrides
 Andrew MacNeille
-Steve Petrides
-Systems Programming
+Systems Programming Assignment
 18 September 2016
+
+Pointersorter is a string tokenizer and sorter implemented in C.
 
 There are two major methods in the implementation of the string tokenizer, one that extracts tokens
 from the input string and a method that appends the token in alphabetical order. 
-
 
 The tokens are stored using a linked list structure. A struct, node is created with three members,
 char * token, which is a pointer to a char array that holds the actual token, node * next which is a
